@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ReactPaginate from "react-paginate";
-
+import 'bootstrap/dist/css/bootstrap.min.css'
 import Checkbox from "./components/Checkbox";
 import Search from "./components/Search";
 import "./App.css";
@@ -33,7 +33,9 @@ function App() {
   const offset = currentPage * PER_PAGE;
   const currentPageData = data.slice(offset, offset + PER_PAGE);
   const pageCount = Math.ceil(data.length / PER_PAGE);
- 
+  const handleSearchName = (e) => {
+    // setSearch(e.target.value);
+  };
 
   function handlePageClick({ selected: selectedPage }) {
     setCurrentPage(selectedPage);
@@ -97,6 +99,19 @@ function App() {
             ))}
         </tbody>
       </table>
+      <ReactPaginate
+        previousLabel={"← Previous"}
+        nextLabel={"Next →"}
+        pageCount={pageCount}
+        onPageChange={handlePageClick}
+        pageRangeDisplayed={2}
+        pageLinkClassName={"pageCount"}
+        containerClassName={"pagination"}
+        previousLinkClassName={"pagination__link"}
+        nextLinkClassName={"pagination__link"}
+        disabledClassName={"pagination__link--disabled"}
+        activeClassName={"pagination__link--active"}
+      />
     </div>
   );
 }
