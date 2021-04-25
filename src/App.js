@@ -1,14 +1,52 @@
-import React from 'react'
+import React,{useState,useEffect} from 'react'
 import Checkbox from './components/Checkbox'
 import Search from './components/Search'
 import './App.css';
 
 function App() {
-  return (
-    <div classNameName="responsive-table">
+  const [data, setData] = useState([]);
+  const [loading, setLoding] = useState(false);
+
+   
+
+
+  const getData = () => {
+    fetch("./airports.json", {
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json"
+      }
+    })
+      .then(function (response) {
+        setLoding(true);
+        return response.json();
+      })
+      .then((data) => setData(data), setLoding(false));
+       console.log(data);
+     
+  };
+useEffect(()=>{
+
+getData();
+},[])
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+  return ( 
+    
+    <div className="responsive-table">
      <Checkbox/>
      <Search/>
-     <div className="App">
       
       {/* <label>
         small
@@ -38,12 +76,24 @@ function App() {
           </tr>
         </thead>
         <tbody>
-          
+        {data.length === 0 ? "Nodata" : null}
+          {data.length > 0 &&
+            data.map((d) => (
+              <tr key={d.id}>
+                <td> {d.name} </td>
+                <td> {d.icao} </td>
+                <td> {d.iata} </td>
+                <td> {d.elevation}ft</td>
+                <td> {(Math.round(d.latitude * 100) / 100).toFixed(2)}</td>
+                <td> {(Math.round(d.longitude * 100) / 100).toFixed(2)}</td>
+                <td> {d.type} </td>
+              </tr>
+            ))}
         </tbody>
       </table>
    
 
-    </div>
+
     </div>
   );
 }

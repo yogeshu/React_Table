@@ -10,7 +10,7 @@ body {
 }
 .responsive-table thead {
   visibility: hidden;
-  background: #fafafa;
+  background: #c9c9c9;
 }
 @media screen and (min-width: 600px) {
   .responsive-table thead {
@@ -31,7 +31,7 @@ body {
     margin-bottom: 0;
   }
   .responsive-table tr:nth-child(even) {
-    background: #fafafa;
+    background: #d3d3d3;
   }
 }
 .responsive-table th,
