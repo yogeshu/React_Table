@@ -9,7 +9,33 @@ function App() {
   const [data, setData] = useState([]);
   const [loading, setLoding] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
-// fetching of data from json file 
+  
+  const [search, setSearch] = useState("");
+  const filterData = data.filter((types) => {
+    return (
+      types.name
+        .toString()
+        .toLowerCase()
+        .indexOf(search.toLocaleLowerCase()) !== -1 ||
+      types.icao.toLowerCase().indexOf(search.toLocaleLowerCase()) !== -1 ||
+      types.elevation
+        .toString()
+        .toLowerCase()
+        .indexOf(search.toLocaleLowerCase()) !== -1 ||
+      types.latitude
+        .toString()
+        .toLowerCase()
+        .indexOf(search.toLocaleLowerCase()) !== -1 ||
+      types.longitude
+        .toString()
+        .toLowerCase()
+        .indexOf(search.toLocaleLowerCase()) !== -1
+    );
+  });
+
+  // fitelr data 
+
+  // fetching of data from json file 
   const getData = () => {
     fetch("./airports.json", {
       headers: {
@@ -28,34 +54,40 @@ function App() {
   useEffect(() => {
     getData();
   }, []);
+
+
+
+
 //  fucntion for pagination
   const PER_PAGE = 4;
   const offset = currentPage * PER_PAGE;
-  const currentPageData = data.slice(offset, offset + PER_PAGE);
-  const pageCount = Math.ceil(data.length / PER_PAGE);
+  const currentPageData = filterData.slice(offset, offset + PER_PAGE);
+  const pageCount = Math.ceil(filterData.length / PER_PAGE);
   const handleSearchName = (e) => {
-    // setSearch(e.target.value);
+    setSearch(e.target.value);
   };
 
+
+  
   function handlePageClick({ selected: selectedPage }) {
     setCurrentPage(selectedPage);
   }
 
   const paginationOffset = currentPage * PER_PAGE;
 
-  const paginatedEntries = data.slice(
+  const paginatedEntries = filterData.slice(
     paginationOffset,
     paginationOffset + PER_PAGE
   );
 
-
+  
 
 
 
   return (
     <div className="responsive-table">
       <Checkbox />
-      <Search />
+      <Search search={search} handleSearchName={handleSearchName} data={data}  />
 
       {/* <label>
         small
@@ -100,7 +132,7 @@ function App() {
         </tbody>
       </table>
       Entries ({paginationOffset + 1}-
-        {paginationOffset + paginatedEntries.length} of {data.length})
+        {paginationOffset + paginatedEntries.length} of {filterData.length})
       <ReactPaginate
         previousLabel={"← Previous"}
         nextLabel={"Next →"}

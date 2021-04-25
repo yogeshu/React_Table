@@ -1,9 +1,15 @@
 import React from 'react'
 
-const Search = () => {
+const Search = ({search,handleSearchName}) => {
     return (
         <div>
-            Search
+           <input
+        type="text"
+        placeholder="search by name"
+      
+        value={search}
+        onChange={handleSearchName}
+      />
         </div>
     )
 }
