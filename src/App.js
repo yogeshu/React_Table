@@ -99,6 +99,8 @@ function App() {
             ))}
         </tbody>
       </table>
+      Entries ({paginationOffset + 1}-
+        {paginationOffset + paginatedEntries.length} of {data.length})
       <ReactPaginate
         previousLabel={"← Previous"}
         nextLabel={"Next →"}
