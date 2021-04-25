@@ -4,11 +4,11 @@ import React from 'react'
 
 function Checkbox({checkData,check,checkfilter,handleInputCheck}) {
     return (
-        <div>
+        <>
             {checkData.map((item, id) => (
         <label key={id}>
           {item}
-          <input
+          <input style={{display:'inline-block'}} 
             type="checkbox"
             defaultChecked={check}
             name={item}
@@ -17,7 +17,7 @@ function Checkbox({checkData,check,checkfilter,handleInputCheck}) {
           />
         </label>
       ))}
-        </div>
+        </>
     )
 }
 

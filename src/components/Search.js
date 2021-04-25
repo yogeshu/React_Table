@@ -3,7 +3,7 @@ import React from 'react'
 const Search = ({search,handleSearchName}) => {
     return (
         <>
-           <input
+           <input style={{display:'inline-block'}} className="table-search"
         type="text"
         placeholder="search by name"
       
