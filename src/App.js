@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ReactPaginate from "react-paginate";
-import 'bootstrap/dist/css/bootstrap.min.css'
+import "bootstrap/dist/css/bootstrap.min.css";
 import Checkbox from "./components/Checkbox";
 import Search from "./components/Search";
 import "./App.css";
@@ -9,8 +9,13 @@ function App() {
   const [data, setData] = useState([]);
   const [loading, setLoding] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
-  
+
   const [search, setSearch] = useState("");
+
+  const [checkfilter, setCheckFilter] = useState(new Map());
+  const [check, setCheked] = useState(false);
+
+  // using filter data on top for avoid rendring issue due to null varible
   const filterData = data.filter((types) => {
     return (
       types.name
@@ -29,17 +34,17 @@ function App() {
       types.longitude
         .toString()
         .toLowerCase()
-        .indexOf(search.toLocaleLowerCase()) !== -1||
-        types.type
+        .indexOf(search.toLocaleLowerCase()) !== -1 ||
+      types.type
         .toString()
         .toLowerCase()
         .indexOf(search.toLocaleLowerCase()) !== -1
     );
   });
 
-  // fitelr data 
+  // fitelr data
 
-  // fetching of data from json file 
+  // fetching of data from json file
   const getData = () => {
     fetch("./airports.json", {
       headers: {
@@ -54,15 +59,12 @@ function App() {
       .then((data) => setData(data), setLoding(false));
     //  console.log(data);
   };
-// using useEffect for updating data 
+  // using useEffect for updating data
   useEffect(() => {
     getData();
   }, []);
 
-
-
-
-//  fucntion for pagination
+  //  fucntion for pagination
   const PER_PAGE = 4;
   const offset = currentPage * PER_PAGE;
   const currentPageData = filterData.slice(offset, offset + PER_PAGE);
@@ -71,8 +73,6 @@ function App() {
     setSearch(e.target.value);
   };
 
-
-  
   function handlePageClick({ selected: selectedPage }) {
     setCurrentPage(selectedPage);
   }
@@ -84,15 +84,35 @@ function App() {
     paginationOffset + PER_PAGE
   );
 
-  
+  const checkData = ["small", "large"];
+  const handleInputCheck = (e, checked = false) => {
+    setCheckFilter({ ...checkfilter, [e.target.name]: e.target.checked });
 
+    const newdata = data.filter((types) => {
+      return types.type.includes("small");
+    });
+    if (newdata) {
+      setData(
+        data.filter((types) => {
+          return types.type.includes("small");
+        })
+      );
+    } else {
+      setData(data);
+    }
 
+    console.log(checkfilter);
+  };
 
   return (
     <div className="responsive-table">
-      <Checkbox />
-      <Search search={search} handleSearchName={handleSearchName} data={data}  />
-
+      <Checkbox
+        checkData={checkData}
+        handleInputCheck={handleInputCheck}
+        checkfilter={checkfilter}
+        check={check}
+      />
+      <Search search={search} handleSearchName={handleSearchName} data={data} />
       {/* <label>
         small
         <input type="checkbox"
@@ -106,7 +126,6 @@ function App() {
         large
         <input type="checkbox" />
       </label> */}
-
       <table>
         <thead>
           <tr>
@@ -136,13 +155,13 @@ function App() {
         </tbody>
       </table>
       Entries ({paginationOffset + 1}-
-        {paginationOffset + paginatedEntries.length} of {filterData.length})
+      {paginationOffset + paginatedEntries.length} of {filterData.length})
       <ReactPaginate
         previousLabel={"← Previous"}
         nextLabel={"Next →"}
         pageCount={pageCount}
         onPageChange={handlePageClick}
-        pageRangeDisplayed={2}
+        // pageRangeDisplayed={2}
         pageLinkClassName={"pageCount"}
         containerClassName={"pagination"}
         previousLinkClassName={"pagination__link"}

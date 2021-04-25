@@ -2,7 +2,7 @@ import React from 'react'
 
 const Search = ({search,handleSearchName}) => {
     return (
-        <div>
+        <>
            <input
         type="text"
         placeholder="search by name"
@@ -10,7 +10,7 @@ const Search = ({search,handleSearchName}) => {
         value={search}
         onChange={handleSearchName}
       />
-        </div>
+        </>
     )
 }
 

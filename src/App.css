@@ -19,7 +19,7 @@ body {
   }
 }
 .responsive-table tr {
-  border: 1px solid #ddd;
+  border: 1px solid rgb(204, 202, 202);
   border-bottom: 2px solid #ddd;
   padding: 5px;
   margin-bottom: 10px;

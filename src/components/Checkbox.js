@@ -2,10 +2,21 @@
 
 import React from 'react'
 
-function Checkbox() {
+function Checkbox({checkData,check,checkfilter,handleInputCheck}) {
     return (
         <div>
-            Checkbox
+            {checkData.map((item, id) => (
+        <label key={id}>
+          {item}
+          <input
+            type="checkbox"
+            defaultChecked={check}
+            name={item}
+            checked={checkfilter[item]}
+            onChange={handleInputCheck}
+          />
+        </label>
+      ))}
         </div>
     )
 }
