@@ -29,6 +29,10 @@ function App() {
       types.longitude
         .toString()
         .toLowerCase()
+        .indexOf(search.toLocaleLowerCase()) !== -1||
+        types.type
+        .toString()
+        .toLowerCase()
         .indexOf(search.toLocaleLowerCase()) !== -1
     );
   });
