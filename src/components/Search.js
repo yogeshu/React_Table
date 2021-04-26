@@ -1,17 +1,23 @@
-import React from 'react'
+import React from "react";
 
-const Search = ({search,handleSearchName}) => {
-    return (
-        <>
-           <input style={{display:'inline-block'}} className="table-search"
-        type="text"
-        placeholder="search by name"
-      
-        value={search}
-        onChange={handleSearchName}
-      />
-        </>
-    )
-}
+const Search = ({ search, handleSearchName }) => {
+  return (
+    <>
+      <div className="ulist">
+        <label className="input-label">
+          Filter By Search
+          <br />
+          <input
+            className="input-search"
+            type="text"
+            placeholder="search by name"
+            value={search}
+            onChange={handleSearchName}
+          />
+        </label>
+      </div>
+    </>
+  );
+};
 
-export default Search
+export default Search;
