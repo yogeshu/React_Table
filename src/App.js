@@ -242,7 +242,7 @@ function App() {
       <p className="pagination__link">
         {" "}
         Showing ({paginationOffset + 1}-
-        {paginationOffset + paginatedEntries.length} of {filterData.length })
+        {paginationOffset + paginatedEntries.length} of {filterData.length && filterCheck.length})
         Results{" "}
       </p>
       <div className="page">
