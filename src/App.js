@@ -240,7 +240,7 @@ function App() {
       </table>
 
       <p className="pagination__link">
-        {" "}
+      
         Showing ({paginationOffset + 1}-
         {paginationOffset + paginatedEntries.length} of {filterData.length && filterCheck.length})
         Results{" "}
