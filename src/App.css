@@ -4,6 +4,7 @@
   box-sizing: border-box;
 }
 
+
 body {
   font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", sans-serif;
   font-size: 16px;
@@ -60,11 +61,16 @@ body {
   .responsive-table td {
     text-align: center !important;
   }
+  .responsive-table th{
+    background: #9d9b9b;
+  }
   .responsive-table td {
     display: block !important;
-    padding: 2px !important;
     font-size: 1rem !important;
     border-bottom: 1px dotted #ddd;
+  }
+  .responsive-table td:nth-child(odd) {
+    background: #f7f5f5;
   }
 }
 

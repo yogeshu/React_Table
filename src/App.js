@@ -6,11 +6,10 @@ import Search from "./components/Search";
 import "./App.css";
 import {
   FormControl,
-  
   Checkbox,
   FormGroup,
   FormControlLabel,
-  TextField
+  TextField,
 } from "@material-ui/core";
 function App() {
   const [data, setData] = useState([]);
@@ -23,7 +22,7 @@ function App() {
   const [check, setCheked] = useState(true);
   const [filterCheck, setFilterCheck] = useState([]);
   const [type, setType] = useState([]);
-  
+
   // const [checkfilter, setCheckFilter] = useState(new Map());
   // const [check ,setCheked] = useState(false)
   //  const Arraryfilter = {
@@ -37,19 +36,17 @@ function App() {
     { type: "medium" },
     { type: "large" },
     { type: "closed" },
-    { type: "heliport" }
+    { type: "heliport" },
     // { type: "in your favorites" }
   ];
 
   const handleChange = (e) => {
     if (e.target.checked) {
-     
       setType([...type, e.target.value]);
     } else {
       setType(type.filter((id) => id !== e.target.value));
     }
-    console.log(type)
-
+    console.log(type);
   };
 
   useEffect(() => {
@@ -62,7 +59,7 @@ function App() {
         )
       );
     }
-  }, [type,data]);
+  }, [type, data]);
 
   // using filter data on top for avoid rendring issue due to null varible
   const filterData = data.filter((types) => {
@@ -90,7 +87,12 @@ function App() {
         .indexOf(search.toLocaleLowerCase()) !== -1
     );
   });
-  
+  const Error = ()=>(
+    <div> 
+
+      <div className="h1"> Loading Data / Not Available   </div>
+    </div>
+  )
   // fitelr data
 
   // fetching of data from json file
@@ -111,12 +113,14 @@ function App() {
   // using useEffect for updating data
   useEffect(() => {
     getData();
-  }, [search,filterCheck]);
+  }, [search, filterCheck]);
 
   //  fucntion for pagination
   const PER_PAGE = 4;
   const offset = currentPage * PER_PAGE;
-  const currentPageData = filterData.slice(offset, offset + PER_PAGE) && filterCheck.slice(offset, offset + PER_PAGE);
+  const currentPageData =
+    filterData.slice(offset, offset + PER_PAGE) ||
+    filterCheck.slice(offset, offset + PER_PAGE);
   const pageCount = Math.ceil(filterData.length / PER_PAGE);
   const handleSearchName = (e) => {
     setSearch(e.target.value);
@@ -133,13 +137,9 @@ function App() {
 
   const paginationOffset = currentPage * PER_PAGE;
 
-  const paginatedEntries = filterData.slice(
-    paginationOffset,
-    paginationOffset + PER_PAGE
-  ) || filterCheck.slice(
-    paginationOffset,
-    paginationOffset + PER_PAGE
-  );
+  const paginatedEntries =
+    filterData.slice(paginationOffset, paginationOffset + PER_PAGE) ||
+    filterCheck.slice(paginationOffset, paginationOffset + PER_PAGE);
 
   // const checkData = [
   //   "small",
@@ -177,16 +177,16 @@ function App() {
         Filter <span className="black"> Airports </span>
       </h1>
       <div className="fake-list">
-      <div className="ucheckbox-list">
-      <span> Type </span> <br/>
-      {typeData.map((typeData) => (
+        <div className="ucheckbox-list">
+          <span> Type </span> <br />
+          {typeData.map((typeData) => (
             <FormControlLabel
               control={<Checkbox onChange={handleChange} />}
-              label={typeData.type} 
+              label={typeData.type}
               value={typeData.type}
             />
           ))}
-         </div> 
+        </div>
 
         <Search
           search={search}
@@ -194,7 +194,7 @@ function App() {
           data={data}
         />
       </div>
-      
+
       {/* <label>
         small
         <input type="checkbox"
@@ -208,7 +208,6 @@ function App() {
         large
         <input type="checkbox" />
       </label> */}
-      
 
       <table>
         <thead>
@@ -223,7 +222,7 @@ function App() {
           </tr>
         </thead>
         <tbody>
-          {currentPageData.length === 0 ? "nodata" : null}
+          {currentPageData.length === 0 ? <Error/> : null}
           {currentPageData.length > 0 &&
             currentPageData.map((d) => (
               <tr key={d.id}>
@@ -238,13 +237,13 @@ function App() {
             ))}
         </tbody>
       </table>
-
+  { currentPageData.length === 0 ? null : 
       <p className="pagination__link">
-      
         Showing ({paginationOffset + 1}-
-        {paginationOffset + paginatedEntries.length} of {filterData.length && filterCheck.length})
-        Results{" "}
+        {paginationOffset + paginatedEntries.length} of{" "}
+        {filterData.length && filterCheck.length}) Results{" "}
       </p>
+}
       <div className="page">
         <ReactPaginate
           previousLabel={"← "}
