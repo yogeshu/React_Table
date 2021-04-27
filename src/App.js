@@ -62,7 +62,7 @@ function App() {
   }, [type, data]);
 
   // using filter data on top for avoid rendring issue due to null varible
-  const filterData = data.filter((types) => {
+  const filterData = filterCheck.filter((types) => {
     return (
       types.name
         .toString()
@@ -119,8 +119,7 @@ function App() {
   const PER_PAGE = 4;
   const offset = currentPage * PER_PAGE;
   const currentPageData =
-    filterData.slice(offset, offset + PER_PAGE) ||
-    filterCheck.slice(offset, offset + PER_PAGE);
+    filterData.slice(offset, offset + PER_PAGE)
   const pageCount = Math.ceil(filterData.length / PER_PAGE);
   const handleSearchName = (e) => {
     setSearch(e.target.value);
@@ -241,7 +240,7 @@ function App() {
       <p className="pagination__link">
         Showing ({paginationOffset + 1}-
         {paginationOffset + paginatedEntries.length} of{" "}
-        {filterData.length && filterCheck.length}) Results{" "}
+        {filterData.length }) Results{" "}
       </p>
 }
       <div className="page">
